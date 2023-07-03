@@ -7,10 +7,7 @@ import numpy as np
 #from descriptastorus.descriptors import rdNormalizedDescriptors
 import pandas as pd
 import os
-"""
-## skchem.descriptors.atom
-Module specifying atom based descriptor generators.
-"""
+
 
 scale_scheme=3
 
