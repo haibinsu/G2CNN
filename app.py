@@ -53,7 +53,7 @@ def home():
 
 
 @app.route('/predict',methods=['POST'])
-def predict():
+def search_csv():
     tol=0.15
 
     int_smis=request.form['SMILES_input']
@@ -61,15 +61,23 @@ def predict():
 
     row=vispils[(vispils['Iso SMILES']==int_smis) & (vispils['Temperature'].between(int_temp-tol, int_temp+tol))]
 
-    properties=row[['Iso SMILES', 'Log viscosity', 'Temperature', 'DataSource', 'Reliability']]
-    output = properties.values[0]
-    output[1]=f'{10**output[1]:.2f}'
+    if len(row)>=1:
+        properties=row[['Iso SMILES', 'Log viscosity', 'Temperature', 'DataSource', 'Reliability']]
+        output = properties.values[0]
+        output[1]=f'{10**output[1]:.2f}'
 
-    pred_vars={"output": output,
-               "prediction_text":'η = {:.2f} mPas at {} K'.format(float(output[1]), output[2]),
-               }
-    
+        pred_vars={"output": output,
+                   "prediction_text":'η = {:.2f} mPas at {} K'.format(float(output[1]), output[2]),
+                   }
+    else:
+        pred_vars={"output": ['','','','',''],
+                   "prediction_text":"{} not included in VISPILS".format(int_smis),
+                   }
+
     return render_template('index.html', **pred_vars)
+
+
+
 
 if __name__ == "__main__":
     app.run(debug=True)
