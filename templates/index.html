@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <!-- Make it compatible to mobile devices -->
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VISPILS</title>
+  <!-- <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}"> -->
+  <link rel="stylesheet" href="/static/css/main.css">
+</head>
+
+
+<body>
+ <div class="search_section">
+    <h1 class="search_heading">Viscosity prediction</h1>
+    <p class="search_subheading">Example Exp. SMILES: CCn1cc[n+](C)c1.F[B-](F)(F)F</p>
+    <p class="search_subheading">Example Pred. SMILES: CCCn1cc[n+](COCC)c1C.N#C[B-](F)(F)C(F)(F)C(F)(F)F</p>
+
+    <!-- Action is where the data is sent. In our case, predict page.
+    If action is omitted, it assumed to be the current page -->
+    <!-- <form action="{{ url_for('predict')}}" method="post"> -->
+    
+    <div class="search_bar">
+        <form action="{{ url_for('predict')}}" method="post">
+            <input type="text" name="SMILES_input" placeholder="SMILES" required="required" /><br>
+            <br>
+            <input type="text" name="Temperature_input" placeholder="T (K)" required="required" /><p>
+            <button type="submit" class="btn btn-primary btn-block btn-large" id="submit">Submit</button></p>
+        </form>
+    </div>
+   <br>
+ </div>
+
+ <div class="results_section">
+   <h4 class="pred_results"> {{ prediction_text }} </h4>
+    <!-- <h2>Predict results</h2> -->
+    
+    <div class="table-container">
+        <table align="center">
+            <caption> Predicted Results </caption>
+            <br>
+            <tr>
+                <th>ILs</th>
+                <th>η (mPas)</th>
+                <th>T (K)</th>
+                <th>Source</th>
+                <th>Reliability</th>
+            </tr>
+            <tr>
+                {% for p in output %}
+                    <td>{{p}}</td>
+                {% endfor %}
+            </tr>
+            <tr></tr>
+            <tr></tr>
+            <tr></tr>
+        </table>
+    </div>
+ </div>
+
+ <div class="footer">
+    <p>
+        2019-2023 @ Ziru
+    </p>
+
+ </div>
+</body>
+</html>
